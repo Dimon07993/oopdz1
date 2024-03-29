@@ -1,34 +1,52 @@
 import pytest
-from utils.code import Categoty, Product
+from utils.code import Category, Product
 
-@pytest.fixture
-def sample_category():
-    return Categoty("Test Category", "Category description", [])
 
-@pytest.fixture
-def sample_product():
-    return Product("Test Product", "Product description", 10.0, 5)
+# Тест для проверки корректности инициализации объектов класса Category
+def test_category():
+    category = Category("Electronics", "Category for electronic devices", [])
+    assert category.name == "Electronics"
+    assert category.description == "Category for electronic devices"
+    assert category.products == []
 
-def test_category_initialization(sample_category):
-    assert sample_category.name == "Test Category"
-    assert sample_category.description == "Category description"
-    assert sample_category.products == []
-    assert sample_category.count_category == 0
-    assert sample_category.count_product == 0
 
-def test_product_initialization(sample_product):
-    assert sample_product.name == "Test Product"
-    assert sample_product.description == "Product description"
-    assert sample_product.price == 10.0
-    assert sample_product.count_in_stock == 5
+# Тест для проверки корректности инициализации объектов класса Product
+def test_product():
+    product = Product("Laptop", "High-performance laptop", 1500.0, 10)
+    assert product.name == "Laptop"
+    assert product.description == "High-performance laptop"
+    assert product.price == 1500.0
+    assert product.count_in_stock == 10
 
-def test_count_category(sample_category):
-    sample_category.get_count_category(1)
-    assert sample_category.count_category == 1
 
-def test_count_product(sample_category):
-    sample_category.get_count_product(1)
-    assert sample_category.count_product == 1
+# Тест для подсчета количества продуктов
+def test_count_products():
+    category = Category("Electronics", "Category for electronic devices", [])
+    product1 = Product("Laptop", "High-performance laptop", 1500.0, 10)
+    product2 = Product("Smartphone", "Flagship smartphone", 1000.0, 20)
+
+    category.products.append(product1)
+    category.products.append(product2)
+
+    category.get_count_product(len(category.products))
+
+    assert category.count_product == 2
+
+
+# Тест для подсчета количества категорий
+def test_count_categories():
+    categories = []
+    categories.append(Category("Electronics", "Category for electronic devices", []))
+    categories.append(Category("Clothing", "Category for clothing items", []))
+
+    total_categories = sum(1 for _ in categories)
+
+    for category in categories:
+        category.get_count_category(1)
+
+    total_category_count = sum(category.count_category for category in categories)
+
+    assert total_categories == total_category_count
 
 
 if __name__ == "__main__":

@@ -1,17 +1,19 @@
 import json
 
 
-class Categoty():
+class Category():
     name: str
     description: str
     products: list
+    count_category = 0
+    count_product = 0
 
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
         self.products = products
-        self.count_category = 0
-        self.count_product = 0
+        # self.count_category = 0
+        # self.count_product = 0
 
     def get_count_category(self, count):
         self.count_category += count
@@ -41,7 +43,7 @@ with open('products.json', encoding='utf-8') as f:
     data = json.load(f)
 
 
-category = Categoty(data[0]['name'], data[0]['description'], data[0]['products'])
+category = Category(data[0]['name'], data[0]['description'], data[0]['products'])
 
 for category_data in data:
     category.get_count_category(1)
