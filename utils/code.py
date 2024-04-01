@@ -63,6 +63,7 @@ class Product():
     def get_price(self):
         return self.__price
 
+
     @property
     def price(self):
         return self.__price
