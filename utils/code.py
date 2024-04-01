@@ -38,6 +38,23 @@ class Category():
         print(f"кол-во категорий {self.count_category}\n"
               f"кол-во продуктов {self.count_product}\n")
 
+    # @property
+    # def count(self):
+    #     count_product = 0
+    #     for i in self.products:
+    #         count_product += i['quantity']
+    #     return count_product
+
+    def __len__(self):
+        count_product = 0
+        for i in self.products:
+            count_product += i['quantity']
+        return count_product
+
+
+    def __str__(self):
+        return f'Название категории: {self.name}, кол-во продуктов: {len(self)} шт.'
+
 
 class Product():
     name: str
@@ -79,6 +96,13 @@ class Product():
         except ValueError:
             print("Пожалуйста, введите корректное значение")
 
+    def __str__(self):
+        return f'Название продукта, {(self.price)} руб. Остаток: {self.count_in_stock} шт.'
+
+    def __add__(self, other):
+        return self.price * self.count_in_stock + other.price * other.count_in_stock
+
+
 
 with open('products.json', encoding='utf-8') as f:
     data = json.load(f)
@@ -93,20 +117,6 @@ for category_data in data:
 print('----')
 category.display()
 
-# str_1 = "999, High-performance laptop, 1500.0, 10"
-# str_2 = 'laptop, High-performance laptop, -1500.0, 10'
-# str_3 = "laptop, High-performance laptop, 15000.0, 10"
-#
-# product = Product.new_product(str_1)
-# product1 = Product.new_product(str_2)
-# product.get_price = str_3
-
-# s1 = product1.format_list
-# print(s1, 's1')
-# s = product.format_list
-
-# category.products = s1
-# category.products = s
 
 category.products = "laptop", "High-performance laptop", 1500.0, 10
 print('++++')
@@ -124,3 +134,24 @@ new_product.price = -500
 print(new_product.price)
 
 print(new_product.format_list)
+
+print('----- __str__ Category')
+
+categ_1 = Category("Electronics", "Category for electronic devices", [{'name': 1, 'description': 2, 'price': 3, 'quantity': 4},
+                                                                                                {'name': 2, 'description': 3, 'price': 4, 'quantity': 5}])
+print(categ_1) #9
+
+print('----- __str__ Product')
+
+prod_1 = Product("Laptop", "High-performance laptop", 1500.0, 10)
+print(prod_1)
+
+
+print('----- __add__ Product')
+
+prod_2 = Product("Smartphone", "Flagship smartphone", 1000.0, 20) #price * count = 20_000
+prod_3 = Product("Smartphone_§", "Smartphone", 2000.0, 40) #price * count = 80_000
+sum = prod_2 + prod_3
+print(sum)
+
+
