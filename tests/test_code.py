@@ -49,5 +49,17 @@ def test_count_categories():
     assert total_categories == total_category_count
 
 
+# Тест для проверки изменения цены
+def test_price():
+    product = Product("Laptop", "High-performance laptop", 1500.0, 10)
+    assert product.price == 1500.0
+
+    try:
+        product.price = -1000.0
+    except ValueError as e:
+        assert str(e) == 'Пожалуйста, введите корректное значение'
+
+
+
 if __name__ == "__main__":
     pytest.main()

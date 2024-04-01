@@ -24,8 +24,9 @@ class Category():
 
     @property
     def get_print_price(self):
-        for product in self.products:
-            print(f'Продукт, {(product["price"])} руб. Остаток: {product["quantity"]} шт.')
+        return self.__products
+        # for product in self.products:
+        #     return f'Продукт, {(product["price"])} руб. Остаток: {product["quantity"]} шт.'
 
     def get_count_category(self, count):
         self.count_category += count
@@ -47,29 +48,35 @@ class Product():
     def __init__(self, name, description, price, count_in_stock):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.count_in_stock = count_in_stock
 
     @classmethod
-    def new_product(cls, name1):
-        name, description, price, count_in_stock = name1.split(', ')
+    def new_product(cls, name, description, price, count_in_stock):
+        # name, description, price, count_in_stock = name1.split(', ')
         return cls(name, description, price, count_in_stock)
 
     @property
     def format_list(self):
-        return [self.name, self.description, self.price, self.count_in_stock]
+        return [self.name, self.description, self.__price, self.count_in_stock]
+
+    def get_price(self):
+        return self.__price
 
     @property
-    def get_price(self):
-        return self.price
+    def price(self):
+        return self.__price
 
-    @get_price.setter
-    def get_price(self, price):
-        name, description, price, count_in_stock = price.split(', ')
-        if float(price) <= 10000:
-            print('Пожалуйста, введите корректное значение')
-        else:
-            self.price = price
+    @price.setter
+    def price(self, new_price):
+        try:
+            price = float(new_price)
+            if price <= 0:
+                print("Пожалуйста, введите корректное значение")
+            else:
+                self.__price = price
+        except ValueError:
+            print("Пожалуйста, введите корректное значение")
 
 
 with open('products.json', encoding='utf-8') as f:
@@ -85,27 +92,34 @@ for category_data in data:
 print('----')
 category.display()
 
-str_1 = "999, High-performance laptop, 1500.0, 10"
-str_2 = 'laptop, High-performance laptop, 1500.0, 10'
-str_3 = "laptop, High-performance laptop, 15000.0, 10"
+# str_1 = "999, High-performance laptop, 1500.0, 10"
+# str_2 = 'laptop, High-performance laptop, -1500.0, 10'
+# str_3 = "laptop, High-performance laptop, 15000.0, 10"
+#
+# product = Product.new_product(str_1)
+# product1 = Product.new_product(str_2)
+# product.get_price = str_3
 
+# s1 = product1.format_list
+# print(s1, 's1')
+# s = product.format_list
 
-
-product = Product.new_product(str_1)
-product1 = Product.new_product(str_2)
-product.get_price = str_3
-
-
-s1 = product1.format_list
-print(s1, 's1')
-s = product.format_list
-
-category.products = s1
-category.products = s
+# category.products = s1
+# category.products = s
 
 category.products = "laptop", "High-performance laptop", 1500.0, 10
 print('++++')
 print(category.products)
 print('----')
-category.get_print_price
 
+
+s = category.get_print_price
+for i in s:
+    print(f'{i["name"]}, {(i["price"])} руб. Остаток: {i["quantity"]} шт.')
+
+
+new_product = Product.new_product('laptop', 'High-performance laptop', 1500.0, 999)
+new_product.price = -500
+print(new_product.price)
+
+print(new_product.format_list)
