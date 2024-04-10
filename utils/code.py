@@ -19,6 +19,10 @@ class Category():
 
     @products.setter
     def products(self, products):
+        "Добавление продуктов в категорию"
+        if not isinstance(products, Product):
+            raise TypeError('Операнд должен быть типа Product')
+
         name, description, price, quantity = products[0], products[1], products[2], products[3]
         self.__products.append({'name': name, 'description': description, 'price': price, 'quantity': quantity})
 
@@ -51,7 +55,6 @@ class Category():
             count_product += i['quantity']
         return count_product
 
-
     def __str__(self):
         return f'Название категории: {self.name}, кол-во продуктов: {len(self)} шт.'
 
@@ -80,7 +83,6 @@ class Product():
     def get_price(self):
         return self.__price
 
-
     @property
     def price(self):
         return self.__price
@@ -100,8 +102,35 @@ class Product():
         return f'Название продукта, {(self.price)} руб. Остаток: {self.count_in_stock} шт.'
 
     def __add__(self, other):
-        return self.price * self.count_in_stock + other.price * other.count_in_stock
+        if not isinstance(other, type(self)):
+            raise TypeError('Операнды должны быть одного типа')
+        else:
+            return self.price * self.count_in_stock + other.price * other.count_in_stock
 
+
+class ProductSmartphone(Product):
+    manufacturer: int
+    model: str
+    memory: int
+    color: str
+    def __init__(self, name, description, price, count_in_stock, manufacturer, model, memory, color):
+        super().__init__(name, description, price, count_in_stock)
+        self.manufacturer = manufacturer
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+    def __str__(self):
+        return f"{self.name}, {self.manufacturer}, {self.model}, {self.memory}, {self.color}"
+
+
+class LawnGrass(Product):
+
+    def __init__(self, name, description, price, count_in_stock, side_producer, time_germination, color):
+        super().__init__(name, description, price, count_in_stock)
+        self.side_producer = side_producer
+        self.time_germination = time_germination
+        self.color = color
 
 
 with open('products.json', encoding='utf-8') as f:
@@ -117,17 +146,14 @@ for category_data in data:
 print('----')
 category.display()
 
-
-category.products = "laptop", "High-performance laptop", 1500.0, 10
-print('++++')
-print(category.products)
-print('----')
-
+# category.products = "laptop", "High-performance laptop", 1500.0, 10
+# print('++++')
+# print(category.products)
+# print('----')
 
 s = category.get_print_price
 for i in s:
     print(f'{i["name"]}, {(i["price"])} руб. Остаток: {i["quantity"]} шт.')
-
 
 new_product = Product.new_product('laptop', 'High-performance laptop', 1500.0, 999)
 new_product.price = -500
@@ -137,21 +163,45 @@ print(new_product.format_list)
 
 print('----- __str__ Category')
 
-categ_1 = Category("Electronics", "Category for electronic devices", [{'name': 1, 'description': 2, 'price': 3, 'quantity': 4},
-                                                                                                {'name': 2, 'description': 3, 'price': 4, 'quantity': 5}])
-print(categ_1) #9
+categ_1 = Category("Electronics", "Category for electronic devices",
+                   [{'name': 1, 'description': 2, 'price': 3, 'quantity': 4},
+                    {'name': 2, 'description': 3, 'price': 4, 'quantity': 5}])
+print(categ_1)  # 9
 
 print('----- __str__ Product')
 
 prod_1 = Product("Laptop", "High-performance laptop", 1500.0, 10)
 print(prod_1)
 
+print('----- __add__ Product сложение экземпляров')
 
-print('----- __add__ Product')
-
-prod_2 = Product("Smartphone", "Flagship smartphone", 1000.0, 20) #price * count = 20_000
-prod_3 = Product("Smartphone_§", "Smartphone", 2000.0, 40) #price * count = 80_000
+prod_2 = Product("Smartphone", "Flagship smartphone", 1000.0, 20)  # price * count = 20_000
+prod_3 = Product("Smartphone_§", "Smartphone", 2000.0, 40)  # price * count = 80_000
 sum = prod_2 + prod_3
 print(sum)
+
+
+print('----- __add__ ProductSmartphone')
+
+ps = ProductSmartphone("Samsung Galaxy C23 Ultra", "256GB, Серий цвет, 200MP камера", 180000.0,
+                       10, 200, "C23", 256, "Серий")
+print(ps)
+
+# print('----- __add__ Нельзя складывать разные экземпляры разных классов TypeError' )
+#
+# ps = ProductSmartphone("Samsung Galaxy C23 Ultra", "256GB, Серий цвет, 200MP камера", 180000.0,
+#                        10, 200, "C23", 256, "Серий")
+# lg = LawnGrass('Green Lawn', 'Beautiful green lawn grass', 20, 100,
+#                'USA', '2 weeks', 'Green')
+#
+# print(lg+ps)
+
+print('----- Добавление только экземпляра или наследника класса' )
+new_product1 = Product.new_product('laptop', 'High-performance laptop', 1500.0, 777)
+print(new_product1)
+print(new_product1.__repr__())
+
+
+
 
 
