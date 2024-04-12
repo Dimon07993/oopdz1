@@ -2,10 +2,21 @@ import json
 from abc import ABC, abstractmethod
 
 
-class Qwerty(ABC):
+class ProductTemplate(ABC):
     @abstractmethod
     def full_pra(self):
         pass
+
+
+class MixinLog(ProductTemplate):
+    ID = 1
+
+    def __init__(self):
+        self.id = self.ID
+        MixinLog.ID += 1
+
+    def __repr__(self):
+        return f"{self.id}, {self.name}, {self.description}, {self.price}, {self.count_in_stock}"
 
 
 class Category():
@@ -66,13 +77,14 @@ class Category():
         return f'Название категории: {self.name}, кол-во продуктов: {len(self)} шт.'
 
 
-class Product(Qwerty):
+class Product(ProductTemplate):
     name: str
     description: str
     price: float
     count_in_stock: int
 
     def __init__(self, name, description, price, count_in_stock):
+        super().__init__()
         self.name = name
         self.description = description
         self.__price = price
@@ -120,7 +132,7 @@ class Product(Qwerty):
         return self.price * self.count_in_stock
 
 
-class ProductSmartphone(Product):
+class ProductSmartphone(Product, MixinLog):
     manufacturer: int
     model: str
     memory: int
@@ -203,14 +215,12 @@ if __name__ == '__main__':
 
     print('----- __add__ Нельзя складывать разные экземпляры разных классов TypeError')
 
-
-
-    ps = ProductSmartphone("Samsung Galaxy C23 Ultra", "256GB, Серий цвет, 200MP камера", 180000.0,
-                            10, 200, "C23", 256, "Серий")
-    prod_4 = Product("Smartphone_§", "Smartphone", 2000.0, 40)
-
-    # print(prod_4 + ps)
-    print(ps + prod_4)
+    # ps = ProductSmartphone("Samsung Galaxy C23 Ultra", "256GB, Серий цвет, 200MP камера", 180000.0,
+    #                         10, 200, "C23", 256, "Серий")
+    # prod_4 = Product("Smartphone_§", "Smartphone", 2000.0, 40)
+    #
+    # # print(prod_4 + ps)
+    # print(ps + prod_4)
     # lg = LawnGrass('Green Lawn', 'Beautiful green lawn grass', 20, 100,
     #                'USA', '2 weeks', 'Green')
     #
@@ -221,7 +231,16 @@ if __name__ == '__main__':
     print(new_product1)
     print(new_product1.__repr__())
 
-    print('----- full_price class LagGrass')
+    print('----- full_pra class LagGrass')
     lg1 = LawnGrass('Green Lawn', 'Beautiful green lawn grass', 20, 100,
                     'USA', '2 weeks', 'Green')
     print(lg1.full_pra())
+
+    print('----- MixinLog class ProductSmartphone')
+
+    ps4 = ProductSmartphone("Samsung Galaxy C23 Ultra", "256GB, Серий цвет, 200MP камера", 180000.0,
+                            10, 200, "C23", 256, "Серий")
+    ps5 = ProductSmartphone("Samsung Galaxy C25", "512GB, Серий цвет, 500MP камера", 280000.0,
+                            5, 1000, "C25", 512, "Черный")
+    print(ps4.__repr__())
+    print(ps5.__repr__())
