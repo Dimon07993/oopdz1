@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 
 
 class ProductTemplate(ABC):
+
+
     @abstractmethod
     def full_pra(self):
         pass
@@ -77,7 +79,7 @@ class Category():
         return f'Название категории: {self.name}, кол-во продуктов: {len(self)} шт.'
 
 
-class Product(ProductTemplate):
+class Product(MixinLog, ProductTemplate ):
     name: str
     description: str
     price: float
@@ -149,7 +151,7 @@ class ProductSmartphone(Product, MixinLog):
         return f"{self.name}, {self.manufacturer}, {self.model}, {self.memory}, {self.color}"
 
 
-class LawnGrass(Product):
+class LawnGrass(Product, MixinLog):
 
     def __init__(self, name, description, price, count_in_stock, side_producer, time_germination, color):
         super().__init__(name, description, price, count_in_stock)
