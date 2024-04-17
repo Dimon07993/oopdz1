@@ -23,15 +23,13 @@ class Category:
         if not isinstance(products, Product):
             raise TypeError('Операнд должен быть типа Product')
         else:
-            # name, description, price, quantity = products[0], products[1], products[2], products[3]
             name, description, price, quantity = products, products, products, products
             self.__products.append({'name': name, 'description': description, 'price': price, 'quantity': quantity})
 
     @property
     def get_print_price(self):
         return self.__products
-        # for product in self.products:
-        #     return f'Продукт, {(product["price"])} руб. Остаток: {product["quantity"]} шт.'
+
 
     def get_count_category(self, count):
         self.count_category += count

@@ -20,7 +20,6 @@ class Product(MixinLog, ProductTemplate):
 
     @classmethod
     def new_product(cls, name, description, price, count_in_stock):
-        # name, description, price, count_in_stock = name1.split(', ')
         return cls(name, description, price, count_in_stock)
 
     @property
