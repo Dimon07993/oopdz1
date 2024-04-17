@@ -246,3 +246,17 @@ if __name__ == '__main__':
                             5, 1000, "C25", 512, "Черный")
     print(ps4.__repr__())
     print(ps5.__repr__())
+
+    print('----- Ошибка добавления товара с 0 шт.')
+    prod_4 = Product("Smartphone", "Flagship smartphone", 1000.0, 0)
+
+    print('----- Средний ценник категории')
+    categ_3 = Category("Electronics", "Category for electronic devices",
+                       [{'name': 1, 'description': 2, 'price': 3, 'quantity': 4},
+                        {'name': 2, 'description': 3, 'price': 4, 'quantity': 5}])
+
+    categ_3.average_price()
+
+    print('----- Средний ценник категории, ошибка в категории нет товаров')
+    categ_4 = Category("Electronics", "Category for electronic devices", [])
+    categ_4.average_price()
