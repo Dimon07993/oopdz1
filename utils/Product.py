@@ -13,10 +13,11 @@ class Product(MixinLog, ProductTemplate):
         self.name = name
         self.description = description
         self.__price = price
-        if count_in_stock > 0:
-            self.count_in_stock = count_in_stock
-        else:
-            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+        self.count_in_stock = count_in_stock
+        # if count_in_stock > 0:
+        #     self.count_in_stock = count_in_stock
+        # else:
+        #     raise ValueError('Товар с нулевым количеством не может быть добавлен')
 
     @classmethod
     def new_product(cls, name, description, price, count_in_stock):

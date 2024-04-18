@@ -94,16 +94,51 @@ if __name__ == '__main__':
     print(ps4.__repr__())
     print(ps5.__repr__())
 
-    # print('----- Ошибка добавления товара с 0 шт.')
-    # prod_4 = Product("Smartphone", "Flagship smartphone", 1000.0, 0)
+    print('----- Ошибка добавления товара с 0 шт.')
+    # product = Product("Товар", "Описание товара", 100, 0)
+    #
+    # # Создаем экземпляр класса Category
+    # category = Category("Категория", "Описание категории", [])
+    #
+    # # Пытаемся добавить продукт в категорию
+    # try:
+    #     category.products = product
+    # except ValueError as e:
+    #     print("Возникло исключение:", e)
+    #
+    # category = Category("Test", "Test category", [])
+    #
+    # # создаем товар с нулевым количеством
+    # product = Product("Test product", "Test product description", 100, 0)
+    #
+    # # пытаемся добавить товар в категорию
+    # category.products = product
 
     print('----- Средний ценник категории')
-    categ_3 = Category("Electronics", "Category for electronic devices",
-                       [{'name': 1, 'description': 2, 'price': 3, 'quantity': 4},
-                        {'name': 2, 'description': 3, 'price': 4, 'quantity': 5}])
+    try:
+        category_3 = Category("Test", "Test category", [])
 
-    categ_3.average_price()
+        avg_price = category_3.average_price()
+        print(avg_price)
+    except ZeroDivisionError:
+        avg_price = 0
+        print(avg_price)
 
-    print('----- Средний ценник категории, ошибка в категории нет товаров вывод 0')
-    categ_5 = Category("Electronics", "Category for electronic devices", [])
-    categ_5.average_price()
+    # создаем экземпляр класса "Category"
+    category = Category("Test", "Test category", [])
+
+    # создаем несколько товаров
+    product1 = Product("Test product 1", "Test product 1 description", 100, 10)
+    product2 = Product("Test product 2", "Test product 2 description", 200, 5)
+    product3 = Product("Test product 3", "Test product 3 description", 300, 7)
+
+    # добавляем товары в категорию
+    category.products.append(product1)
+    category.products.append(product2)
+    category.products.append(product3)
+
+    # выводим средний ценник
+    avg_price = category.average_price()
+    print("Средний ценник:", avg_price)
+
+
