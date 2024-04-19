@@ -1,5 +1,6 @@
 import pytest
-from utils.code import Category, Product
+from utils.Product import Product
+from utils.Category import Category
 
 
 # Тест для проверки корректности инициализации объектов класса Category
@@ -58,7 +59,6 @@ def test_price():
         product.price = -1000.0
     except ValueError as e:
         assert str(e) == 'Пожалуйста, введите корректное значение'
-
 
 
 if __name__ == "__main__":
