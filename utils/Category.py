@@ -55,10 +55,10 @@ class Category:
         total_price = 0
         for product in self.products:
             total_price += product.price
-        if len(self.products) == 0:
-            raise ZeroDivisionError
-        else:
+        try:
             return total_price / len(self.products)
+        except ZeroDivisionError:
+            return 0
 
     def __str__(self):
         return f'Название категории: {self.name}, кол-во продуктов: {len(self)} шт.'
